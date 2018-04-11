@@ -28,9 +28,9 @@ libatomic1, glibc, alsa, gconf2, libnotify, mozilla-nspr >= 4.13, mozilla-nss >=
 
 ## Crashes and issues caused by missing dependencies
 
-### libc++/libcxx
+### libc++1/libc++/libcxx
 
-If Discord crashes when before it loads, most times this is caused by the user missing `libc++/libcxx`.  Having too old of a version of `libc++/libcxx` can also cause Discord to crash before it loads.  A couple of examples of Discord's output in a terminal when this happens are shown below:
+If Discord crashes when before it loads, most times this is caused by the user missing `libc++1/libc++/libcxx`.  Having too old of a version of `libc++1/libc++/libcxx` can also cause Discord to crash before it loads.  A couple of examples of Discord's output in a terminal when this happens are shown below:
 
 ```
 DiscordCanary[7645]: segfault at 0 ... error 4 in libc-2.23.so ...
@@ -40,13 +40,91 @@ DiscordCanary[7645]: segfault at 0 ... error 4 in libc-2.23.so ...
 exception_ptr not yet implemented
 ```
 
+Steps to solve this issue:
+
+Debian/Ubuntu/Mint:
+
+```
+sudo apt-get install libc++1
+```
+
+Arch Linux:
+
+[See the AUR page for libc++ for install instructions](https://aur.archlinux.org/packages/libc%2B%2B/)
+
+Fedora:
+
+```
+sudo dnf install libcxx
+```
+
+openSUSE:
+
+```
+sudo zypper install libc++1
+```
+
 ### libatomic1/libatomic
 
 If a red banner shows in the Discord client on Linux saying that the install is corrupt, this is almost always caused by the user missing `libatomic1/libatomic`.  Some users have also reported that voice chat does not work properly without `libatomic1/libatomic` installed.
 
+Steps to solve this issue:
+
+Ubuntu/Debian/Mint:
+
+```
+sudo apt-get install libatomic1
+```
+
+Arch Linux:
+
+```
+sudo pacman -S glibc
+```
+
+Fedora:
+
+```
+sudo dnf install libatomic
+```
+
+openSUSE:
+
+```
+sudo zypper install libatomic1
+```
+
 ### Notification Daemons
 
-If the user is not running a notification daemon (such as notifyosd, notification-daemon, dunst, etc), Discord will appear to freeze for a few seconds every time that the Discord client tries to send a desktop notification (when the user gets a mention, DM, etc).  This can be solved by either disabling notifications in Discord's settings or by installing a notification daemon.
+If the user is not running a notification daemon (such as notify-osd, notification-daemon, dunst, etc), Discord will appear to freeze for a few seconds every time that the Discord client tries to send a desktop notification (when the user gets a mention, DM, etc).  This can be solved by either disabling notifications in Discord's settings or by installing a notification daemon.
+
+Steps to solve this issue:
+
+There are multiple notification daemons that the user may choose to install.  If a user is not running a notification daemon, it is usually because they are not running a Desktop Environment which would provide one for them.  Both `dunst` and `notify-osd` are lightweight notification daemons that are commonly installed without a Desktop Environment.  The examples below show how to install `notify-osd`
+
+Ubuntu/Debian/Mint:
+
+```
+sudo apt-get install notify-osd
+```
+
+Arch Linux:
+
+```
+sudo pacman -S notify-osd
+```
+
+Fedora:
+
+```
+sudo dnf install notify-osd
+```
+
+openSUSE:
+
+```
+sudo zypper install notify-osd
+```
 
 ## Other issues
 
