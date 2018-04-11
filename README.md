@@ -56,4 +56,4 @@ Discord uses a setting that only works with GNOME based Desktop Environments, so
 
 ### No input or output audio devices listed
 
-Recently, Discord's voice chat has stopped working if the user does not have `pulseaudio` installed.  As an alternative, the user ***may*** also be able to use `apulse`, but some users have reported that `apulse` does not work.
+Recently, Discord's voice chat has stopped working if the user does not have `pulseaudio` installed.  Users have reported that notification sounds work fine, but Discord does not detect any input or output devices for voice chat.  To fix this, the user can install `pulseaudio`.  As an alternative, the user ***may*** also be able to use `apulse`, but some users have reported that `apulse` does not work.
