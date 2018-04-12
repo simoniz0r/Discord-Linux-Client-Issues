@@ -64,6 +64,10 @@ openSUSE:
 sudo zypper install libc++1
 ```
 
+CentOS/Others:
+
+If the user is running a distribution such as CentOS which has too old of a version of libc++1/libc++/libcxx, they will not be able to run Discord without either adding an additional repository to update their libc++1/libc++/libcxx version or they can use the [AppImage builds of Discord](http://simonizor.net/discord) which contain all of the necessary dependencies for Discord to run (including an up to date libc++1/libc++/libcxx).
+
 ### libatomic1/libatomic
 
 If a red banner shows at the top of the Discord client on Linux saying that the install is corrupt, this is almost always caused by the user missing `libatomic1/libatomic`.  Some users have also reported that voice chat does not work properly without `libatomic1/libatomic` installed.
@@ -82,7 +86,7 @@ Arch Linux:
 sudo pacman -S glibc
 ```
 
-Fedora:
+Fedora/CentOS:
 
 ```
 sudo dnf install libatomic
