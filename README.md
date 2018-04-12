@@ -30,7 +30,7 @@ libatomic1, glibc, alsa, gconf2, libnotify, mozilla-nspr >= 4.13, mozilla-nss >=
 
 ### libc++1/libc++/libcxx
 
-If Discord crashes when before it loads, most times this is caused by the user missing `libc++1/libc++/libcxx`.  Having too old of a version of `libc++1/libc++/libcxx` can also cause Discord to crash before it loads.  A couple of examples of Discord's output in a terminal when this happens are shown below:
+If Discord crashes before it loads, most times this is caused by the user missing `libc++1/libc++/libcxx`.  Having too old of a version of `libc++1/libc++/libcxx` can also cause Discord to crash before it loads.  A couple of examples of Discord's output in a terminal when this happens are shown below:
 
 ```
 DiscordCanary[7645]: segfault at 0 ... error 4 in libc-2.23.so ...
@@ -66,7 +66,7 @@ sudo zypper install libc++1
 
 ### libatomic1/libatomic
 
-If a red banner shows in the Discord client on Linux saying that the install is corrupt, this is almost always caused by the user missing `libatomic1/libatomic`.  Some users have also reported that voice chat does not work properly without `libatomic1/libatomic` installed.
+If a red banner shows at the top of the Discord client on Linux saying that the install is corrupt, this is almost always caused by the user missing `libatomic1/libatomic`.  Some users have also reported that voice chat does not work properly without `libatomic1/libatomic` installed.
 
 Steps to solve this issue:
 
