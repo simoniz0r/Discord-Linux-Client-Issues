@@ -25,7 +25,7 @@ function showissues() {
 }
 # run a grep -qi containing the search input on the name of the issue
 function searchissues() {
-    echo "Searching for $@ ..."
+    echo "Searching for '$@' ..."
     START_ISSUE=0
     for issue in $(jq -r '.[].shortUrl' /tmp/discord-linux-issues.json); do
         if jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json | grep -qi "$@"; then
@@ -62,6 +62,7 @@ case "$1" in
         exit 0
         ;;
     -s|--search)
+        shift
         getissues
         searchissues "$@"
         ;;
