@@ -7,7 +7,24 @@
 # download issues to /tmp/discord-linux-issuses.json to avoid multiple checks
 function getissues() {
     rm -f /tmp/discord-linux-issues.json
-    curl -sSL -o /tmp/discord-linux-issues.json "https://api.trello.com/1/boards/UyU76Esh/cards" || { echo "Failed to download issues from Trello; exiting..."; exit 1; }
+    case "$1" in
+        Linux|linux)
+            BOARD="UyU76Esh"
+            ;;
+        Desktop|desktop)
+            BOARD="AExxR9lU"
+            ;;
+        Android|android)
+            BOARD="Vqrkz3KO"
+            ;;
+        iOS|ios)
+            BOARD="vLPlnX60"
+            ;;
+        *)
+            BOARD="UyU76Esh"
+            ;;
+    esac
+    curl -sSL -o /tmp/discord-linux-issues.json "https://api.trello.com/1/boards/$BOARD/cards" || { echo "Failed to download issues from Trello; exiting..."; exit 1; }
 }
 # use jq to output all issues in a readable format
 function showissues() {
@@ -49,7 +66,7 @@ fi
 case "$1" in
     -h|--help)
         echo "A simple script that outputs and searches https://api.trello.com/1/boards/UyU76Esh/cards using curl and jq"
-        echo "Usage: discord-issues [argument] [search term(s)]"
+        echo "Usage: discord-issues [arguments] [search term(s)]"
         echo
         echo "Arguments:"
         echo "-h, --help        Show this help output and exit."
@@ -57,17 +74,40 @@ case "$1" in
         echo "-s, --search      Search for term(s) matching the input. '\|' can be used to search for multiple terms at once."
         echo "                  Ex: discord-issues -s 'start\|KDE'"
         echo
-        echo "If no argument is passed, the entire list of issues will be shown."
+        echo "-b, --board       Specify the Trello board to search on; options are linux, desktop, android, ios"
+        echo "                  Can be used with -s; Ex: discord-issues -s -b desktop 'drop-down'"
+        echo
+        echo "If no argument is passed, the entire list of Linux issues will be shown."
         echo
         exit 0
         ;;
     -s|--search)
         shift
-        getissues
+        case "$1" in
+            -b|--board)
+                shift
+                INPUT_BOARD="$1"
+                shift
+                ;;
+            *)
+                INPUT_BOARD="linux"
+                ;;
+        esac
+        getissues "$INPUT_BOARD"
         searchissues "$@"
         ;;
     *)
-        getissues
+        case "$1" in
+            -b|--board)
+                shift
+                INPUT_BOARD="$1"
+                shift
+                ;;
+            *)
+                INPUT_BOARD="linux"
+                ;;
+        esac
+        getissues "$INPUT_BOARD"
         showissues | less
         ;;
 esac
