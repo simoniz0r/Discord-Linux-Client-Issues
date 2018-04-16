@@ -13,12 +13,12 @@ function getissues() {
 function showissues() {
     START_ISSUE=0
     for issue in $(jq -r '.[].shortUrl' /tmp/discord-linux-issues.json); do
-        echo -e "Issue: $(jq -r ".[$START_ISSUE].shortLink" /tmp/discord-linux-issues.json)\n"
-        echo -e "Name:\n$(jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json)"
-        echo -e "Last Date of Activity:\n$(jq -r ".[$START_ISSUE].dateLastActivity" /tmp/discord-linux-issues.json)"
-        echo -e "Description:\n$(jq -r ".[$START_ISSUE].desc" /tmp/discord-linux-issues.json)"
-        echo -e "Labels:\n$(jq -r ".[$START_ISSUE].labels" /tmp/discord-linux-issues.json)"
-        echo -e "URL:\n$(jq -r ".[$START_ISSUE].shortUrl" /tmp/discord-linux-issues.json)"
+        echo -e "$(tput setaf 1)Issue: $(jq -r ".[$START_ISSUE].shortLink" /tmp/discord-linux-issues.json)\n$(tput sgr0)"
+        echo -e "Name:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json)$(tput sgr0)"
+        echo -e "Last Date of Activity:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].dateLastActivity" /tmp/discord-linux-issues.json)$(tput sgr0)"
+        echo -e "Description:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].desc" /tmp/discord-linux-issues.json)$(tput sgr0)"
+        echo -e "Labels:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].labels" /tmp/discord-linux-issues.json)$(tput sgr0)"
+        echo -e "URL:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].shortUrl" /tmp/discord-linux-issues.json)$(tput sgr0)"
         START_ISSUE=$(($START_ISSUE+1))
         echo
     done
@@ -29,12 +29,12 @@ function searchissues() {
     START_ISSUE=0
     for issue in $(jq -r '.[].shortUrl' /tmp/discord-linux-issues.json); do
         if jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json | grep -qi "$@"; then
-            echo -e "Issue: $(jq -r ".[$START_ISSUE].shortLink" /tmp/discord-linux-issues.json)\n"
-            echo -e "Name:\n$(jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json)"
-            echo -e "Last Date of Activity:\n$(jq -r ".[$START_ISSUE].dateLastActivity" /tmp/discord-linux-issues.json)"
-            echo -e "Description:\n$(jq -r ".[$START_ISSUE].desc" /tmp/discord-linux-issues.json)"
-            echo -e "Labels:\n$(jq -r ".[$START_ISSUE].labels" /tmp/discord-linux-issues.json)"
-            echo -e "URL:\n$(jq -r ".[$START_ISSUE].shortUrl" /tmp/discord-linux-issues.json)"
+            echo -e "$(tput setaf 1)Issue: $(jq -r ".[$START_ISSUE].shortLink" /tmp/discord-linux-issues.json)\n$(tput sgr0)"
+            echo -e "Name:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json)$(tput sgr0)"
+            echo -e "Last Date of Activity:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].dateLastActivity" /tmp/discord-linux-issues.json)$(tput sgr0)"
+            echo -e "Description:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].desc" /tmp/discord-linux-issues.json)$(tput sgr0)"
+            echo -e "Labels:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].labels" /tmp/discord-linux-issues.json)$(tput sgr0)"
+            echo -e "URL:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].shortUrl" /tmp/discord-linux-issues.json)$(tput sgr0)"
             echo
         fi
         START_ISSUE=$(($START_ISSUE+1))
