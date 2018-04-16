@@ -17,7 +17,7 @@ function showissues() {
         echo -e "Name:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json)$(tput sgr0)"
         echo -e "Last Date of Activity:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].dateLastActivity" /tmp/discord-linux-issues.json)$(tput sgr0)"
         echo -e "Description:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].desc" /tmp/discord-linux-issues.json)$(tput sgr0)"
-        echo -e "Labels:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].labels" /tmp/discord-linux-issues.json)$(tput sgr0)"
+        echo -e "Labels:\n$(jq -r ".[$START_ISSUE].labels" /tmp/discord-linux-issues.json)"
         echo -e "URL:\n$(tput setaf 2)$(jq -r ".[$START_ISSUE].shortUrl" /tmp/discord-linux-issues.json)$(tput sgr0)"
         START_ISSUE=$(($START_ISSUE+1))
         echo
@@ -68,7 +68,7 @@ case "$1" in
         ;;
     *)
         getissues
-        showissues
+        showissues | less
         ;;
 esac
 rm -f /tmp/discord-linux-issues.json
