@@ -83,7 +83,7 @@ sudo apt-get install libatomic1
 Arch Linux:
 
 ```
-sudo pacman -S glibc
+sudo pacman -S gcc-libs
 ```
 
 Fedora/CentOS:
