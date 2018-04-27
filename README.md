@@ -139,3 +139,9 @@ Discord uses a setting that only works with GNOME based Desktop Environments, so
 ### No input or output audio devices listed
 
 Recently, Discord's voice chat has stopped working if the user does not have `pulseaudio` installed.  Users have reported that notification sounds work fine, but Discord does not detect any input or output devices for voice chat.  To fix this, the user can install `pulseaudio`.  As an alternative, the user ***may*** also be able to use `apulse`, but some users have reported that `apulse` does not work.
+
+### Font rendering issues with libfreetype6/freetype2 >= 2.8.1
+
+The version of Electon that Discord uses causes font rendering issues with unpatched libfreetype6/freetype2 >= 2.8.1.  Random bars and dots will appear in between letters and the spacing will also be a bit off (screenshot below).  To work around this issue, the [AppImage builds of Discord](http://www.simonizor.net/discord) may be used.  The AppImage builds contain an older version of `libfreetype6` which does not cause this issue.  Using the AppImage will allow the user to keep their system's version of libfreetype6/freetype2 rather than manually downgrading their installed version which is not recommended.
+
+![brokenfonts](https://images-ext-2.discordapp.net/external/tLtkRxxrub5dF1iiMIE7DyR7zgwu3GxFf3Fzre5UmfA/https/u.teknik.io/zpVD0.png)
