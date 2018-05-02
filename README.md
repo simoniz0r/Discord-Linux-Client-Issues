@@ -142,6 +142,6 @@ Recently, Discord's voice chat has stopped working if the user does not have `pu
 
 ### Font rendering issues with libfreetype6/freetype2 >= 2.8.1
 
-The version of Electon that Discord uses causes font rendering issues with unpatched libfreetype6/freetype2 >= 2.8.1.  Random bars and dots will appear in between letters and the spacing will also be a bit off (screenshot below).  To work around this issue, the [AppImage builds of Discord](http://www.simonizor.net/discord) may be used.  The AppImage builds contain an older version of `libfreetype6` which does not cause this issue.  Using the AppImage will allow the user to keep their system's version of libfreetype6/freetype2 rather than manually downgrading their installed version which is not recommended.
+Font rendering issues such as shown in the screenshot below have been fixed in the Canary client as of 0.0.47.  Stable and PTB have not received this fix yet, so use Canary if you are having font rendering issues.
 
 ![brokenfonts](https://images-ext-2.discordapp.net/external/tLtkRxxrub5dF1iiMIE7DyR7zgwu3GxFf3Fzre5UmfA/https/u.teknik.io/zpVD0.png)
