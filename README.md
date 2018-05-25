@@ -139,9 +139,3 @@ Discord uses a setting that only works with GNOME based Desktop Environments, so
 ### No input or output audio devices listed
 
 Recently, Discord's voice chat has stopped working if the user does not have `pulseaudio` installed.  Users have reported that notification sounds work fine, but Discord does not detect any input or output devices for voice chat.  To fix this, the user can install `pulseaudio`.  As an alternative, the user ***may*** also be able to use `apulse`, but some users have reported that `apulse` does not work.
-
-### Font rendering issues with libfreetype6/freetype2 >= 2.8.1
-
-Font rendering issues such as shown in the screenshot below have been fixed in the Canary client as of 0.0.47.  Stable and PTB have not received this fix yet, so use Canary if you are having font rendering issues.
-
-![brokenfonts](https://images-ext-2.discordapp.net/external/tLtkRxxrub5dF1iiMIE7DyR7zgwu3GxFf3Fzre5UmfA/https/u.teknik.io/zpVD0.png)
