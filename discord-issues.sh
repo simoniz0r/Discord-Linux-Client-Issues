@@ -6,7 +6,7 @@
 
 # download issues to /tmp/discord-linux-issuses.json to avoid multiple checks
 function getissues() {
-    rm -f /tmp/discord-linux-issues.json
+    rm -rf /tmp/discord-issues-cache
     case "$1" in
         Linux|linux)
             BOARD="UyU76Esh"
@@ -24,17 +24,20 @@ function getissues() {
             BOARD="UyU76Esh"
             ;;
     esac
-    curl -sSL -o /tmp/discord-linux-issues.json "https://api.trello.com/1/boards/$BOARD/cards" || { echo "Failed to download issues from Trello; exiting..."; exit 1; }
+    mkdir -p /tmp/discord-issues-cache || { echo "Failed to download issues from Trello; exiting..."; exit 1; }
+    cd /tmp/discord-issues-cache
+    curl -sSL "https://api.trello.com/1/boards/$BOARD/cards" | jq -r '.[]' \
+    | csplit --digits=6 --quiet --prefix=issue --suffix-format=%02d.json - "/^{/" "{*}" \
+    || { echo "Failed to download issues from Trello; exiting..."; exit 1; }
 }
 function jsonissues() {
     jq -r '.' /tmp/discord-linux-issues.json
 }
-
 # use jq to output all issues in a readable format
 function showissues() {
     START_ISSUE=0
-    for issue in $(jq -r '.[].shortUrl' /tmp/discord-linux-issues.json); do
-        case "$(jq -r ".[$START_ISSUE].labels[0].color" /tmp/discord-linux-issues.json)" in
+    for issue in $(dir -Cw1 /tmp/discord-issues-cache); do
+        case "$(jq -r ".labels[0].color" /tmp/discord-issues-cache/"$issue")" in
             green)
                 CLR=2
                 ;;
@@ -48,23 +51,23 @@ function showissues() {
                 CLR=4
                 ;;
         esac
-        echo -e "$(tput setaf 6)Issue: $(jq -r ".[$START_ISSUE].shortLink" /tmp/discord-linux-issues.json)\n$(tput sgr0)"
-        echo -e "Name:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json)$(tput sgr0)"
-        echo -e "Last Date of Activity:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].dateLastActivity" /tmp/discord-linux-issues.json)$(tput sgr0)"
-        echo -e "Description:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].desc" /tmp/discord-linux-issues.json)$(tput sgr0)"
-        echo -e "Labels:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].labels[].name" /tmp/discord-linux-issues.json)$(tput sgr0)"
-        echo -e "URL:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].shortUrl" /tmp/discord-linux-issues.json)$(tput sgr0)"
-        START_ISSUE=$(($START_ISSUE+1))
+        echo -e "$(tput setaf 6)Issue: $(jq -r ".shortLink" /tmp/discord-issues-cache/"$issue")\n$(tput sgr0)"
+        echo -e "Name:\n$(tput setaf $CLR)$(jq -r ".name" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+        echo -e "Last Date of Activity:\n$(tput setaf $CLR)$(jq -r ".dateLastActivity" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+        echo -e "Description:\n$(tput setaf $CLR)$(jq -r ".desc" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+        echo -e "Labels:\n$(tput setaf $CLR)$(jq -r ".labels[].name" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+        echo -e "URL:\n$(tput setaf $CLR)$(jq -r ".shortUrl" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
         echo
+        START_ISSUE=$(($START_ISSUE+1))
     done
 }
 # run a grep -qi containing the search input on the name of the issue
 function searchissues() {
     echo "Searching for '$@' ..."
     START_ISSUE=0
-    for issue in $(jq -r '.[].shortUrl' /tmp/discord-linux-issues.json); do
-        if jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json | grep -qi "$@"; then
-            case "$(jq -r ".[$START_ISSUE].labels[0].color" /tmp/discord-linux-issues.json)" in
+    for issue in $(dir -Cw1 /tmp/discord-issues-cache); do
+        if jq -r ".name" /tmp/discord-issues-cache/"$issue" | grep -qi "$@"; then
+            case "$(jq -r ".labels[0].color" /tmp/discord-issues-cache/"$issue")" in
                 green)
                     CLR=2
                     ;;
@@ -78,12 +81,12 @@ function searchissues() {
                     CLR=4
                     ;;
             esac
-            echo -e "$(tput setaf 6)Issue: $(jq -r ".[$START_ISSUE].shortLink" /tmp/discord-linux-issues.json)\n$(tput sgr0)"
-            echo -e "Name:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].name" /tmp/discord-linux-issues.json)$(tput sgr0)"
-            echo -e "Last Date of Activity:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].dateLastActivity" /tmp/discord-linux-issues.json)$(tput sgr0)"
-            echo -e "Description:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].desc" /tmp/discord-linux-issues.json)$(tput sgr0)"
-            echo -e "Labels:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].labels[].name" /tmp/discord-linux-issues.json)$(tput sgr0)"
-            echo -e "URL:\n$(tput setaf $CLR)$(jq -r ".[$START_ISSUE].shortUrl" /tmp/discord-linux-issues.json)$(tput sgr0)"
+            echo -e "$(tput setaf 6)Issue: $(jq -r ".shortLink" /tmp/discord-issues-cache/"$issue")\n$(tput sgr0)"
+            echo -e "Name:\n$(tput setaf $CLR)$(jq -r ".name" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+            echo -e "Last Date of Activity:\n$(tput setaf $CLR)$(jq -r ".dateLastActivity" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+            echo -e "Description:\n$(tput setaf $CLR)$(jq -r ".desc" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+            echo -e "Labels:\n$(tput setaf $CLR)$(jq -r ".labels[].name" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
+            echo -e "URL:\n$(tput setaf $CLR)$(jq -r ".shortUrl" /tmp/discord-issues-cache/"$issue")$(tput sgr0)"
             echo
         fi
         START_ISSUE=$(($START_ISSUE+1))
@@ -157,5 +160,5 @@ case "$1" in
         showissues
         ;;
 esac
-rm -f /tmp/discord-linux-issues.json
+rm -rf /tmp/discord-issues-cache
 exit 0
