@@ -1,7 +1,6 @@
 # Common issues with the Discord client on Linux
 
-Discord will currently crash on start with linux distros that havr glibc with the clone3 instruction eg fedora 35.
-A workaround is to use `--no-sandbox`, disable hardware acceleration or use the flatpak
+Discord will currently crash on start with a trap exit code when glibc has the clone3 instruction due to their out of date electron build. Workarounds are to use `--no-sandbox`, disable hardware acceleration or use the flatpak
 
 ## List of Discord's dependencies on most popular distros
 
