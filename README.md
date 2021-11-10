@@ -1,5 +1,8 @@
 # Common issues with the Discord client on Linux
 
+Discord will currently crash on start with linux distros that havr glibc with the clone3 instruction eg fedora 35.
+A workaround is to use `--no-sandbox`, disable hardware acceleration or use the flatpak
+
 ## List of Discord's dependencies on most popular distros
 
 ### Discord's dependencies on Debian based distros (includes Ubuntu based distros which also includes Mint):
