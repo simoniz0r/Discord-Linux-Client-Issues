@@ -50,7 +50,7 @@ sudo apt-get install libc++1
 
 Arch Linux:
 
-[See the AUR page for libc++ for install instructions](https://aur.archlinux.org/packages/libc%2B%2B/)
+[See the Arch package page for libc++ for install instructions](https://archlinux.org/packages/community/x86_64/libc++/)
 
 Fedora:
 
