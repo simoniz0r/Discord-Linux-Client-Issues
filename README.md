@@ -129,6 +129,9 @@ openSUSE:
 ```
 sudo zypper install notify-osd
 ```
+## Crashing on start with satisfied dependencies
+Sometimes, the app refuses to start even if all dependencies are satisfied. If you decide to try reinstalling Discord, make sure the Discord's config folder is deleted (for Arch Linux, this config is located on `~/.config/discord`) as there might be some corrupted/edited file that prevents Discord from loading successfully.
+
 
 ## Other issues
 
